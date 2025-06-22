@@ -1,9 +1,49 @@
-love .blockhearth {
-width: 40px;
-height: 40px;
-position: absolute;
-background:url("hearth.png");
-background-size: contain;
-/*border: 1px solid;*/
-box-sizing: border-box;
-}
+# Inicialização do Pygame
+pygame.init()
+
+# Tamanho da tela
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Coração desenhado 💖")
+
+# Cores
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+
+def draw_heart(surface, x, y, size):
+    # Desenha o coração com base na posição (x, y) e tamanho
+    radius = size // 2
+
+    # Dois círculos no topo
+    pygame.draw.circle(surface, RED, (x - radius // 2, y), radius)
+    pygame.draw.circle(surface, RED, (x + radius // 2, y), radius)
+
+    # Triângulo para formar a parte de baixo
+    points = [
+        (x - size, y),               # canto esquerdo
+        (x + size, y),               # canto direito
+        (x, y + size * 1.5),         # ponto inferior
+    ]
+    pygame.draw.polygon(surface, RED, points)
+
+# Loop principal
+running = True
+clock = pygame.time.Clock()
+
+while running:
+    screen.fill(WHITE)
+
+    # Desenhar coração no centro
+    draw_heart(screen, WIDTH // 2, HEIGHT // 2 - 50, 40)
+
+    # Atualiza a tela
+    pygame.display.flip()
+    clock.tick(60)
+
+    # Verifica eventos
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+pygame.quit()
+
